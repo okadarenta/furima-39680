@@ -3,23 +3,27 @@
 |Column|Type|Options|
 |------|----|-------|
 | username | string | null: false|
-| email | string | null: false |
-| password | string | null: false |
-| first_name | string | null: false |
-| last_name | string | null: false |
-| address | text |-------|
-| phone_number | string | limit: 20 |
+| email | string | null: false,unique: true |
+| encrypted_password | string | null: false |
+| kanji_first_name | string | null: false |
+| kanji_last_name | string | null: false |
+| katakana_first_name | string |null: false|
+| katakana_last_name | string | null: false |
 
 #Items
 
 |Column|Type|Options|
 |------|----|-------|
 | title | string | null:false |
-| description | text |-------|
+| description | text | null: false |
 | price | decimal | precision: 10, scale: 2, null: false |
-| condition | string |-------|
+| condition | string | null: false |
 | seller | references | null: false, foreign_key: { to_table: :users } |
-| status | string | null: false, deafault: "出品中" |
+| shipping_duration | string | null: false |
+| shipping_fee_burden | string | null: false |
+| category | string | null: false |
+| origin_area | string | null: false |
+| image | binary | null: false |
 
 #Puchases
 
@@ -27,11 +31,9 @@
 |------|----|-------|
 | buyer | references | null: false, foreign_key: { to_table: :users } |
 | item | references | null: false, foreign_key: true |
-| quantity | integer | null: false |
-| total_price | decimal | precision: 10, scale: 2, null: false |
-| status | string | null: false, default: "支払い待ち" |
+| item_price | decimal | precision: 10, scale: 2, null: false |
 
-#Shippng_address
+#Shippng_addresses
 
 |Column|Type|Options|
 |------|----|-------|
