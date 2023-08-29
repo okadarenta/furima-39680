@@ -1,8 +1,7 @@
 #Users
 
-has_many :items, foreign_key: 'user', dependent: :destroy
-has_many :purchases, foreign_key: 'user', dependent: :destroy
-has_many :shipping_addresses, dependent: :destroy
+has_many :items
+has_many :purchases
 |Column|Type|Options|
 |------|----|-------|
 | username | string | null: false|
@@ -17,7 +16,7 @@ has_many :shipping_addresses, dependent: :destroy
 #Items
 
 belongs_to :user, class_name: 'User'
-has_many :purchases, dependent: :destroy
+has_one :purchases, dependent: :destroy
 |Column|Type|Options|
 |------|----|-------|
 | title | string | null:false |
@@ -34,6 +33,7 @@ has_many :purchases, dependent: :destroy
 
  belongs_to :user, class_name: 'User'
  belongs_to :item
+ belongs_to :shipping_address
 |Column|Type|Options|
 |------|----|-------|
 | user | references | null: false, foreign_key: { to_table: :users } |
@@ -43,6 +43,7 @@ has_many :purchases, dependent: :destroy
 #Shippng_addresses
 
  belongs_to :user
+ has_many :purchases
 |Column|Type|Options|
 |------|----|-------|
 | postal_code | string | null: false |
