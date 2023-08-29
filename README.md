@@ -1,5 +1,8 @@
 #Users
 
+has_many :items, foreign_key: 'user', dependent: :destroy
+has_many :purchases, foreign_key: 'user', dependent: :destroy
+has_many :shipping_addresses, dependent: :destroy
 |Column|Type|Options|
 |------|----|-------|
 | username | string | null: false|
@@ -13,20 +16,24 @@
 
 #Items
 
+belongs_to :user, class_name: 'User'
+has_many :purchases, dependent: :destroy
 |Column|Type|Options|
 |------|----|-------|
 | title | string | null:false |
 | description | text | null: false |
-| price_id | integer | null: false |
-| condition | string | null: false |
-| user | references | null: false, foreign_key: { to_table: :users } |
+| price | integer | null: false |
+| condition_id | string | null: false |
+| user | references | null: false, foreign_key: true |
 | shipping_duration_id | string | null: false |
 | shipping_fee_burden_id | string | null: false |
 | category_id | string | null: false |
-| origin_area_id | string | null: false |
+| prefecture_id | string | null: false |
 
 #Puchases
 
+ belongs_to :user, class_name: 'User'
+ belongs_to :item
 |Column|Type|Options|
 |------|----|-------|
 | user | references | null: false, foreign_key: { to_table: :users } |
@@ -35,10 +42,11 @@
 
 #Shippng_addresses
 
+ belongs_to :user
 |Column|Type|Options|
 |------|----|-------|
 | postal_code | string | null: false |
-| prefecture | string | null: false |
+| prefecture_id | string | null: false |
 | city | string | null: false |
 | street_address | string | null: false |
 | building_name | string | |
