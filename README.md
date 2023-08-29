@@ -12,7 +12,7 @@
 | birthday | date | null: false |
 
 has_many :items
-has_many :purchases
+has_many :puchases
 
 #Items
 
@@ -29,7 +29,7 @@ has_many :purchases
 | prefecture_id | integer | null: false |
 
 belongs_to :user, class_name: 'User'
-has_one :purchases, dependent: :destroy
+has_one :purchase, dependent: :destroy
 
 #Puchases
 
@@ -40,7 +40,7 @@ has_one :purchases, dependent: :destroy
 
  belongs_to :user, class_name: 'User'
  belongs_to :item
- belongs_to :shipping_address
+ has_one :shipping_address
 
 
 #Shippng_addresses
@@ -53,9 +53,9 @@ has_one :purchases, dependent: :destroy
 | street_address | string | null: false |
 | building_name | string | |
 | phone_number | string | null: false |
+| purchase | reference | foreign_key: true |
 
- belongs_to :user
- has_many :purchases
+ belongs_to :purchases
 
 
 
