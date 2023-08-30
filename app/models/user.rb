@@ -5,9 +5,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
          validates :username, presence: true
-         validates :kanji_first_name, presence: true
-         validates :kanji_last_name, presence: true
-         validates :katakana_first_name, presence: true
-         validates :katakana_last_name, presence: true
+         validates :kanji_first_name, presence: true,  format: { with: /\A[ぁ-んァ-ン一-龥]+\z/}
+         validates :kanji_last_name, presence: true, format: { with: /\A[ぁ-んァ-ン一-龥]+\z/}
+         validates :katakana_first_name, presence: true,  format: { with: /\A[ァ-ヶー－]+\z/}
+         validates :katakana_last_name, presence: true, format: { with: /\A[ァ-ヶー－]+\z/}
          validates :birthday, presence: true
 end
