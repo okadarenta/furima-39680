@@ -55,7 +55,7 @@ has_one :purchase, dependent: :destroy
 | phone_number | string | null: false |
 | purchase | reference | foreign_key: true |
 
- belongs_to :purchases
+ belongs_to :purchase
 
 
 
