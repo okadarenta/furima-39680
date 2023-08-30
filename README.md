@@ -48,12 +48,12 @@ has_one :purchase, dependent: :destroy
 |Column|Type|Options|
 |------|----|-------|
 | postal_code | string | null: false |
-| prefecture_id | string | null: false |
+| prefecture_id | integer | null: false |
 | city | string | null: false |
 | street_address | string | null: false |
 | building_name | string | |
 | phone_number | string | null: false |
-| purchase | reference | foreign_key: true |
+| purchase | references | foreign_key: true |
 
  belongs_to :purchase
 
