@@ -1,24 +1,61 @@
-# README
+#Users
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+|Column|Type|Options|
+|------|----|-------|
+| username | string | null: false|
+| email | string | null: false,unique: true |
+| encrypted_password | string | null: false |
+| kanji_first_name | string | null: false |
+| kanji_last_name | string | null: false |
+| katakana_first_name | string |null: false|
+| katakana_last_name | string | null: false |
+| birthday | date | null: false |
 
-Things you may want to cover:
+has_many :items
+has_many :puchases
 
-* Ruby version
+#Items
 
-* System dependencies
+|Column|Type|Options|
+|------|----|-------|
+| title | string | null:false |
+| description | text | null: false |
+| price | integer | null: false |
+| condition_id | integer | null: false |
+| user | references | null: false, foreign_key: true |
+| shipping_duration_id | integer | null: false |
+| shipping_fee_burden_id | integer | null: false |
+| category_id | integer | null: false |
+| prefecture_id | integer | null: false |
 
-* Configuration
+belongs_to :user, class_name: 'User'
+has_one :purchase, dependent: :destroy
 
-* Database creation
+#Puchases
 
-* Database initialization
+|Column|Type|Options|
+|------|----|-------|
+| user | references | null: false, foreign_key: { to_table: :users } |
+| item | references | null: false, foreign_key: true |
 
-* How to run the test suite
+ belongs_to :user, class_name: 'User'
+ belongs_to :item
+ has_one :shipping_address
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
+#Shippng_addresses
 
-* ...
+|Column|Type|Options|
+|------|----|-------|
+| postal_code | string | null: false |
+| prefecture_id | integer | null: false |
+| city | string | null: false |
+| street_address | string | null: false |
+| building_name | string | |
+| phone_number | string | null: false |
+| purchase | references | foreign_key: true |
+
+ belongs_to :purchase
+
+
+
