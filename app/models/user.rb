@@ -11,15 +11,5 @@ class User < ApplicationRecord
          validates :katakana_first_name, presence: true,  format: { with: /\A[ァ-ヶー－]+\z/}
          validates :katakana_last_name, presence: true, format: { with: /\A[ァ-ヶー－]+\z/}
          validates :birthday, presence: true
-
-         validate :password_complexity
-
-         private
-
-         def password_complexity
-           return if password.blank?
-       
-           unless password.match(/^(?=.*[a-zA-Z])(?=.*\d).+/)
-           end
-         end
-       end
+         validates :password, format:  { with: /\A(?=.*[a-zA-Z])(?=.*\d).+\z/ }
+end
