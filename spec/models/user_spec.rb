@@ -42,7 +42,10 @@ RSpec.describe User, type: :model do
       end
 
       it 'パスワードとパスワード（確認）が一致すること' do
-        expect(@user).to be_valid
+        @user.password = '123456'
+        @user.password_confirmation = '1234567'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
       end
 
       it 'usernameは入力必須であること' do
