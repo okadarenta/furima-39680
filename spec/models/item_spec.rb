@@ -31,31 +31,31 @@ RSpec.describe Item, type: :model do
     end
 
     it ' カテゴリーの情報が必須であること。' do
-      @item.category = nil
+      @item.category_id = 1
       @item.valid?
     expect(@item.errors.full_messages).to include("Category can't be blank")
     end
 
     it '商品の状態の情報が必須であること' do
-      @item.condition = nil
+      @item.condition_id = 1
       @item.valid?
     expect(@item.errors.full_messages).to include("Condition can't be blank")
     end
 
     it '発送元の地域の情報が必須であること' do
-      @item.prefecture = nil
+      @item.prefecture_id = 1
       @item.valid?
     expect(@item.errors.full_messages).to include("Prefecture can't be blank")
     end
 
     it '配送料の負担の情報が必須であること' do
-      @item.shipping_fee_burden = nil
+      @item.shipping_fee_burden_id = 1
       @item.valid?
     expect(@item.errors.full_messages).to include("Shipping fee burden can't be blank")
     end
 
     it ' 発送までの日数の情報が必須であること' do
-      @item.shipping_duration = nil
+      @item.shipping_duration_id = 1
       @item.valid?
     expect(@item.errors.full_messages).to include("Shipping duration can't be blank")
     end
@@ -79,8 +79,13 @@ RSpec.describe Item, type: :model do
 
     it '価格が半角以外保存できないこと' do
       @item.price = '１０００' 
-  expect(@item).not_to be_valid
+      @item.valid?
   expect(@item.errors.full_messages).to include("Price is out of setting range")
+end
+it 'ユーザーが関連付けられていない場合、保存できない' do
+  @item.user = nil 
+  @item.valid?
+  expect(@item.errors.full_messages).to include("User must exist")
 end
 end
 end

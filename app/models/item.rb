@@ -13,8 +13,7 @@ class Item < ApplicationRecord
   validates :title, presence: true
   validates :description, presence: true
   validates :price, presence: { message: "can't be blank" },
-  numericality: { greater_than: 299, less_than_or_equal_to: 9_999_999, only_integer: true, message: "is out of setting range" },
-  format: { with: /\A[0-9]+\z/, message: "is invalid. Input half-width characters" }
+  numericality: { greater_than: 299, less_than_or_equal_to: 9_999_999, only_integer: true, message: "is out of setting range" }
   validates :condition_id, presence: true, numericality: { other_than: 1, message: "can't be blank" }
   validates :shipping_duration_id, presence: true, numericality: { other_than: 1, message: "can't be blank" }
   validates :shipping_fee_burden_id, presence: true, numericality: { other_than: 1, message: "can't be blank" }
