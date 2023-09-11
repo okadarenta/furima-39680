@@ -1,26 +1,29 @@
 class PurchasesController < ApplicationController
+  before_action :set_item, only: [:index, :create, :new]
   def index
-    @item = Item.find(params[:item_id])
     @purchase_form = PurchaseForm.new
   end
 
   def create
-    @item = Item.find(params[:item_id])
     @purchase_form = PurchaseForm.new(purchase_params)
     if @purchase_form.valid?
       @purchase_form.save
       redirect_to root_path
     else
-      render :index
+      render :index, status: :unprocessable_entity
     end
   end
 
-  def new
-    @purchase_form = PurchaseForm.new
-    render :index
-  end 
 
-def purchase_params
-  params.require(:purchase_form).permit(:postal_code, :prefecture_id, :city, :street_address, :building_name, :phone_number).merge(user_id: current_user.id, item_id: @item.id)
-end
+
+
+  private
+
+  def purchase_params
+    params.require(:purchase_form).permit(:postal_code, :prefecture_id, :city, :street_address, :building_name, :phone_number).merge(user_id: current_user.id, item_id: @item.id)
+  end
+
+  def set_item
+    @item = Item.find(params[:item_id])
+  end
 end
