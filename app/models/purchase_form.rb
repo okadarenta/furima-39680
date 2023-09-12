@@ -3,9 +3,7 @@ class PurchaseForm
 
   attr_accessor :postal_code,  :prefecture_id,  :city, :street_address,  :building_name,  :phone_number,  :item_id, :user_id, :purchase_id
 
-  validates :prefecture_id, numericality: { other_than: 1 }
-  validates :item_id, presence: true
-  validates :user_id, presence: true
+  validates :prefecture_id, presence: true, numericality: { other_than: 1 }
   validates :postal_code, presence: true, format: {with: /\A[0-9]{3}-[0-9]{4}\z/ }
   validates :city, presence: true
   validates :street_address, presence: true
