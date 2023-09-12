@@ -1,13 +1,14 @@
 class PurchaseForm
   include ActiveModel::Model
 
-  attr_accessor :postal_code,  :prefecture_id,  :city, :street_address,  :building_name,  :phone_number,  :item_id, :user_id, :purchase_id
+  attr_accessor :postal_code,  :prefecture_id,  :city, :street_address,  :building_name,  :phone_number,  :item_id, :user_id, :purchase_id, :token
 
   validates :prefecture_id, presence: true, numericality: { other_than: 1 }
   validates :postal_code, presence: true, format: {with: /\A[0-9]{3}-[0-9]{4}\z/ }
   validates :city, presence: true
   validates :street_address, presence: true
   validates :phone_number, presence: true, format: { with: /\A\d{10,11}\z/ }
+  validates :token, presence: true
 
   def save
       purchase = Purchase.create(
