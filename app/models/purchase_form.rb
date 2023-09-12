@@ -23,7 +23,6 @@ class PurchaseForm
         street_address: street_address,
         building_name: building_name,
         phone_number: phone_number,
-        purchase_id: purchase_id
       )
     end
   end

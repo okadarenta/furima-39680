@@ -1,20 +1,20 @@
 class PurchasesController < ApplicationController
-  before_action :set_item, only: [:index, :create, :new]
+  before_action :authenticate_user!
+  before_action :set_item, only: [:index, :create]
   def index
     gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
+    if user_signed_in? && current_user.id != @item.user_id && @item.purchase == nil
     @purchase_form = PurchaseForm.new
+  else
+    redirect_to root_path
+  end
   end
 
   def create
     @purchase_form = PurchaseForm.new(purchase_params)
     item_price = @item.price
     if @purchase_form.valid?
-      Payjp.api_key = ENV["PAYJP_SECRET_KEY"] 
-      Payjp::Charge.create(
-        amount: @item.price,  # 商品の値段
-        card: purchase_params[:token],    # カードトークン
-        currency: 'jpy'                 # 通貨の種類（日本円）
-      )
+      pay_item
       @purchase_form.save
       redirect_to root_path
     else
@@ -35,4 +35,13 @@ class PurchasesController < ApplicationController
   def set_item
     @item = Item.find(params[:item_id])
   end
+
+  def pay_item
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"] 
+    Payjp::Charge.create(
+      amount: @item.price, 
+      card: purchase_params[:token],    
+      currency: 'jpy'                 
+    )
+end
 end
