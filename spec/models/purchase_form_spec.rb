@@ -2,13 +2,18 @@ require 'rails_helper'
 
 RSpec.describe PurchaseForm, type: :model do
   before do
-    @purchase_form = FactoryBot.build(:purchase_form)
+    @user = FactoryBot.create(:user)
+    @item = FactoryBot.create(:item, user_id: @user.id)
+    @purchase_form = FactoryBot.build(:purchase_form, user_id: @user.id, item_id: @item.id)
   end
 
+    context '商品購入ができる' do
   it 'バリデーションを通過すると保存できる' do
     expect(@purchase_form).to be_valid
   end
+end 
 
+context '商品購入ができない' do
   it '郵便番号が必須であること' do
     @purchase_form.postal_code = nil
     @purchase_form.valid?
@@ -56,8 +61,20 @@ RSpec.describe PurchaseForm, type: :model do
     expect(@purchase_form.errors.full_messages).to include("Phone number can't be blank")
   end
 
-  it '電話番号は10桁以上11桁以内の半角数値のみ保存可能であること' do
-    @purchase_form.phone_number = '090-1234-5678'
+  it '電話番号が9桁以下では購入できないこと' do
+    @purchase_form.phone_number = '090123456'
+    @purchase_form.valid?
+    expect(@purchase_form.errors.full_messages).to include("Phone number is invalid")
+  end
+  
+  it '電話番号が12桁以上では購入できないこと' do
+    @purchase_form.phone_number = '0901234567890'
+    @purchase_form.valid?
+    expect(@purchase_form.errors.full_messages).to include("Phone number is invalid")
+  end
+  
+  it '電話番号に半角数字以外が含まれている場合は購入できないこと' do
+    @purchase_form.phone_number = '090-ABCD-EFGH'
     @purchase_form.valid?
     expect(@purchase_form.errors.full_messages).to include("Phone number is invalid")
   end
@@ -67,4 +84,17 @@ RSpec.describe PurchaseForm, type: :model do
     @purchase_form.valid?
     expect(@purchase_form.errors.full_messages).to include("Token can't be blank")
   end
+
+  it 'userが紐付いていなければ購入できない' do
+    @purchase_form.user_id = nil
+    @purchase_form.valid?
+    expect(@purchase_form.errors.full_messages).to include("User can't be blank")
+  end
+
+  it 'itemが紐付いていなければ購入できない' do
+    @purchase_form.item_id = nil
+    @purchase_form.valid?
+    expect(@purchase_form.errors.full_messages).to include("Item can't be blank")
+  end
+end
 end
