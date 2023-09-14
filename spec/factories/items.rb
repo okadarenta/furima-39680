@@ -8,7 +8,7 @@ FactoryBot.define do
     shipping_duration { ShippingDuration.find(2) }
     price { 500 } 
     prefecture{ Prefecture.find(2) }
-    association :user_id
+    association :user
     after(:build) do |item|
       item.image.attach(io: File.open('public/images/test_image.png'), filename: 'test_image.png')
     end

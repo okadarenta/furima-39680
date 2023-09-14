@@ -17,6 +17,7 @@ ja:
         shipping_fee_burden_id: 発送料の負担
         category_id: カテゴリー
         prefecture_id: 発送元の地域
+        image: 画像
   activemodel:
     attributes:
       purchase_form:
