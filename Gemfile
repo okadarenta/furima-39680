@@ -96,3 +96,5 @@ gem 'pry'
 gem 'gon'
 
 gem 'rails-i18n'
+
+gem "aws-sdk-s3", require: false
